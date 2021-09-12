@@ -146,6 +146,30 @@ function World(starting) {
     return Object.assign(to_return, starting);
 }
 
+var log = console.log;
+
+// A world stores inputs, and dependency info
+// for the set of computations.
+var world = new World();
+
+// inputs are assigned into the world
+world.a = 5;
+world.b = 10;
+log(world.a, world.b); // 5 10
+
+// function assignment adds a "computed value"
+world.c = ({a, b}) => a + b;
+world.d = ({a, b, c}) => a + b + c;
+log(world.c, world.d); // 15 30
+
+// re-assigning inputs will re-compute dependents
+world.a = 20;
+log(world.d); // 60
+
+// world state can be requested
+log(world); // { a: 20, b: 10, c: 30, d: 60 }
+
+/*
 var world = new World({
     foo : 5,
     bar : 10, 
@@ -169,3 +193,4 @@ with (world) {
 console.log(world.baz);
 
 console.log(world);
+*/
